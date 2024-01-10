@@ -26,12 +26,17 @@ export default function Home() {
     "(F",
   ];
   const [isSubmit, setSubmit] = useState(false);
+  const [sum, setSum] = useState(false);
   const [DATABASE, setdata] = useState([]);
   useEffect(() => {
     setdata(DATA.sort(() => Math.random() - 0.5));
   }, []);
   return (
     <main className="flex bg-[#f5f5f5]  w-full px-[20px] min-h-screen flex-col items-center justify-between p-24">
+      {isSubmit ?? <div className="flex gap-[20px]">
+        <p className="text-[#000]">Sum: </p>
+        <p className="text-[#000]">so cau lam dung: </p>
+      </div>}
       <div className="gap-[10px] flex flex-col items-center">
         {isSubmit
           ? DATABASE?.map((data, index) => {
