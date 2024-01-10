@@ -18,12 +18,12 @@ export default function Home() {
     "4.",
     "5.",
     "6.",
-    "(a)",
-    "(b)",
-    "(c)",
-    "(d)",
-    "(e)",
-    "(f)",
+    "(A",
+    "(B",
+    "(C",
+    "(D",
+    "(E",
+    "(F",
   ];
   const [isSubmit, setSubmit] = useState(false);
   const [DATABASE, setdata] = useState([]);
