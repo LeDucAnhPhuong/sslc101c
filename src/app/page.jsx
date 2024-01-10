@@ -18,6 +18,12 @@ export default function Home() {
     "4.",
     "5.",
     "6.",
+    "(a)",
+    "(b)",
+    "(c)",
+    "(d)",
+    "(e)",
+    "(f)",
   ];
   const [isSubmit, setSubmit] = useState(false);
   const [DATABASE, setdata] = useState([]);
@@ -76,7 +82,9 @@ export default function Home() {
                             id={data.id + `${index}`}
                           ></input>
                           <label
-                            className={`${isTrueAnswer ? "text-[#008000]" : "text-[#000]"}`}
+                            className={`${
+                              isTrueAnswer ? "text-[#008000]" : "text-[#000]"
+                            }`}
                             htmlFor={data.id + `${index}`}
                           >
                             {ans}
