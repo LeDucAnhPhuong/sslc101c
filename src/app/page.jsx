@@ -101,41 +101,40 @@ export default function Home() {
                     className="p-[20px] rounded-[10px] w-full bg-[#fff]"
                   >
                     <div className="flex flex-col gap-[5px] items-start">
+                      <h3 className="text-[#000]">{index}.</h3>
                       {question.map((ques, index) => (
-                        <h5 key={index} className="text-[#000]">
-                          {ques}
-                        </h5>
+                        <>
+                          <h5 key={index} className="text-[#000]">
+                            {ques}
+                          </h5>
+                        </>
                       ))}
                     </div>
                     <div className="ml-[10px] mt-[20px] flex flex-col items-start">
-                      {answerArray
-                        .sort(() => Math.random() - 0.5)
-                        .map((ans, index) => {
-                          const isTrueAnswer = correctAnswer.some((e) =>
-                            ans.toLowerCase().includes(e.toLowerCase())
-                          );
-                          return (
-                            <div
-                              key={ans}
-                              className="flex gap-[10px] items-center"
+                      {answerArray.map((ans, index) => {
+                        const isTrueAnswer = correctAnswer.some((e) =>
+                          ans.toLowerCase().includes(e.toLowerCase())
+                        );
+                        return (
+                          <div
+                            key={ans}
+                            className="flex gap-[10px] items-center"
+                          >
+                            <input
+                              type="checkbox"
+                              id={data.id + `${index}`}
+                            ></input>
+                            <label
+                              className={`${
+                                isTrueAnswer ? "text-[#008000]" : "text-[#000]"
+                              }`}
+                              htmlFor={data.id + `${index}`}
                             >
-                              <input
-                                type="checkbox"
-                                id={data.id + `${index}`}
-                              ></input>
-                              <label
-                                className={`${
-                                  isTrueAnswer
-                                    ? "text-[#008000]"
-                                    : "text-[#000]"
-                                }`}
-                                htmlFor={data.id + `${index}`}
-                              >
-                                {ans}
-                              </label>
-                            </div>
-                          );
-                        })}
+                              {ans}
+                            </label>
+                          </div>
+                        );
+                      })}
                     </div>
                   </li>
                 );
@@ -167,27 +166,31 @@ export default function Home() {
                     className="p-[20px] rounded-[10px] w-full bg-[#fff]"
                   >
                     <div className="flex flex-col gap-[5px] items-start">
+                      <h3 className="text-[#000] font-[700]">{index}.</h3>
                       {question.map((ques, index) => (
-                        <h5 key={index} className="text-[#000]">
-                          {ques}
-                        </h5>
+                        <>
+                          <h5 key={index} className="text-[#000]">
+                            {ques}
+                          </h5>
+                        </>
                       ))}
                     </div>
-                    <div className="ml-[10px] mt-[20px] flex flex-col items-start">
+                    <div className="ml-[10px] mt-[20px]  flex flex-col items-start">
                       {answerArray
                         .sort(() => Math.random() - 0.5)
                         .map((ans, index) => {
                           return (
                             <div
                               key={ans}
-                              className="flex gap-[10px] items-center"
+                              className="flex gap-[10px] cursor-pointer  items-center"
                             >
                               <input
                                 type="checkbox"
                                 id={data.id + `${index}`}
+                                className="cursor-pointer"
                               ></input>
                               <label
-                                className={`text-[#000]
+                                className={`text-[#000] cursor-pointer
                             }`}
                                 htmlFor={data.id + `${index}`}
                               >
