@@ -33,10 +33,12 @@ export default function Home() {
   }, []);
   return (
     <main className="flex bg-[#f5f5f5]  w-full px-[20px] min-h-screen flex-col items-center justify-between p-24">
-      {isSubmit ?? <div className="flex gap-[20px]">
-        <p className="text-[#000]">Sum: </p>
-        <p className="text-[#000]">so cau lam dung: </p>
-      </div>}
+      {isSubmit ?? (
+        <div className="flex gap-[20px]">
+          <p className="text-[#000]">Sum: </p>
+          <p className="text-[#000]">so cau lam dung: </p>
+        </div>
+      )}
       <div className="gap-[10px] flex flex-col items-center">
         {isSubmit
           ? DATABASE?.map((data, index) => {
@@ -73,30 +75,32 @@ export default function Home() {
                     ))}
                   </div>
                   <div className="ml-[10px] mt-[20px] flex flex-col items-start">
-                    {answerArray.map((ans, index) => {
-                      const isTrueAnswer = correctAnswer.some((e) =>
-                        ans.toLowerCase().includes(e.toLowerCase())
-                      );
-                      return (
-                        <div
-                          key={index}
-                          className="flex gap-[10px] items-center"
-                        >
-                          <input
-                            type="checkbox"
-                            id={data.id + `${index}`}
-                          ></input>
-                          <label
-                            className={`${
-                              isTrueAnswer ? "text-[#008000]" : "text-[#000]"
-                            }`}
-                            htmlFor={data.id + `${index}`}
+                    {answerArray
+                      .sort(() => Math.random() - 0.5)
+                      .map((ans, index) => {
+                        const isTrueAnswer = correctAnswer.some((e) =>
+                          ans.toLowerCase().includes(e.toLowerCase())
+                        );
+                        return (
+                          <div
+                            key={ans}
+                            className="flex gap-[10px] items-center"
                           >
-                            {ans}
-                          </label>
-                        </div>
-                      );
-                    })}
+                            <input
+                              type="checkbox"
+                              id={data.id + `${index}`}
+                            ></input>
+                            <label
+                              className={`${
+                                isTrueAnswer ? "text-[#008000]" : "text-[#000]"
+                              }`}
+                              htmlFor={data.id + `${index}`}
+                            >
+                              {ans}
+                            </label>
+                          </div>
+                        );
+                      })}
                   </div>
                 </li>
               );
@@ -133,26 +137,28 @@ export default function Home() {
                     ))}
                   </div>
                   <div className="ml-[10px] mt-[20px] flex flex-col items-start">
-                    {answerArray?.map((ans, index) => {
-                      return (
-                        <div
-                          key={index}
-                          className="flex gap-[10px] items-center"
-                        >
-                          <input
-                            type="checkbox"
-                            id={data.id + `${index}`}
-                          ></input>
-                          <label
-                            className={`text-[#000]
-                            }`}
-                            htmlFor={data.id + `${index}`}
+                    {answerArray
+                      .sort(() => Math.random() - 0.5)
+                      .map((ans, index) => {
+                        return (
+                          <div
+                            key={ans}
+                            className="flex gap-[10px] items-center"
                           >
-                            {ans}
-                          </label>
-                        </div>
-                      );
-                    })}
+                            <input
+                              type="checkbox"
+                              id={data.id + `${index}`}
+                            ></input>
+                            <label
+                              className={`text-[#000]
+                            }`}
+                              htmlFor={data.id + `${index}`}
+                            >
+                              {ans}
+                            </label>
+                          </div>
+                        );
+                      })}
                   </div>
                 </li>
               );
