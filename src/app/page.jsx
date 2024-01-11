@@ -28,141 +28,178 @@ export default function Home() {
   const [isSubmit, setSubmit] = useState(false);
   const [sum, setSum] = useState(false);
   const [DATABASE, setdata] = useState([]);
-  useEffect(() => {
-    setdata(DATA.sort(() => Math.random() - 0.5));
-  }, []);
+  const [test, setTest] = useState({
+    isTest: false,
+    numberQuestion: 20,
+  });
+  // useEffect(() => {
+  //   setdata(DATA.sort(() => Math.random() - 0.5));
+  // }, []);
   return (
-    <main className="flex bg-[#f5f5f5]  w-full px-[20px] min-h-screen flex-col items-center justify-between p-24">
-      {isSubmit ?? (
-        <div className="flex gap-[20px]">
-          <p className="text-[#000]">Sum: </p>
-          <p className="text-[#000]">so cau lam dung: </p>
+    <main className="flex bg-[#f5f5f5] gap-[20px] w-full px-[20px] min-h-screen flex-col items-center justify-between p-24">
+      <div className="p-[10px_20px] flex items-center  justify-center w-full bg-[#fff] rounded-[18px]">
+        <div className="outline-0 overflow-hidden w-[75%] p-[10px_20px_10px_0] h-full rounded-[18px_0_0_18px] border-r-[1px] border-[2px] border-[solid] border-[#000] text-[#000]">
+          <input
+            className="outline-0 w-[110%] translate-x-[20px]"
+            onChange={({ target }) => {
+              setTest({
+                ...test,
+                numberQuestion: target.value,
+              });
+            }}
+            type="number"
+            min="20"
+            max="396"
+            defaultValue={20}
+          />
         </div>
-      )}
+        <button
+          onClick={() => {
+            setTest({
+              ...test,
+              isTest: !test.isTest,
+            });
+            if (!test.isTest) {
+              setdata(DATA.sort(() => Math.random() - 0.5));
+              setSubmit(false);
+            }
+          }}
+          className="p-[10px_20px] bg-[#0000005f] rounded-[0_18px_18px_0] h-full border-[2px] border-l-[1px] border-[solid] border-[#000] text-[#fff]"
+        >
+          Start
+        </button>
+      </div>
       <div className="gap-[10px] flex flex-col items-center">
-        {isSubmit
-          ? DATABASE?.map((data, index) => {
-              const content =
-                data.cardSides[1]?.media[0]?.plainText?.split("\n");
-              const question = [
-                content[0],
-                content
+        {test.isTest &&
+          (isSubmit
+            ? DATABASE?.slice(0, test.numberQuestion).map((data, index) => {
+                const content =
+                  data.cardSides[1]?.media[0]?.plainText?.split("\n");
+                const question = [
+                  content[0],
+                  content
+                    .slice(1, content.length)
+                    .filter(
+                      (answer) =>
+                        !trueAnswer.some(
+                          (e) => answer.toUpperCase().slice(0, 2) === e
+                        )
+                    ),
+                ];
+                const correctAnswer =
+                  data.cardSides[0]?.media[0]?.plainText?.split("\n");
+                const answerArray = content
                   .slice(1, content.length)
-                  .filter(
-                    (answer) =>
-                      !trueAnswer.some(
-                        (e) => answer.toUpperCase().slice(0, 2) === e
-                      )
-                  ),
-              ];
-              const correctAnswer =
-                data.cardSides[0]?.media[0]?.plainText?.split("\n");
-              const answerArray = content
-                .slice(1, content.length)
-                .filter((answer) =>
-                  trueAnswer.some((e) => answer.toUpperCase().slice(0, 2) === e)
-                );
-              return (
-                <li
-                  key={data?.id}
-                  className="p-[20px] rounded-[10px] w-full bg-[#fff]"
-                >
-                  <div className="flex flex-col gap-[5px] items-start">
-                    {question.map((ques, index) => (
-                      <h5 key={index} className="text-[#000]">
-                        {ques}
-                      </h5>
-                    ))}
-                  </div>
-                  <div className="ml-[10px] mt-[20px] flex flex-col items-start">
-                    {answerArray
-                      .sort(() => Math.random() - 0.5)
-                      .map((ans, index) => {
-                        const isTrueAnswer = correctAnswer.some((e) =>
-                          ans.toLowerCase().includes(e.toLowerCase())
-                        );
-                        return (
-                          <div
-                            key={ans}
-                            className="flex gap-[10px] items-center"
-                          >
-                            <input
-                              type="checkbox"
-                              id={data.id + `${index}`}
-                            ></input>
-                            <label
-                              className={`${
-                                isTrueAnswer ? "text-[#008000]" : "text-[#000]"
-                              }`}
-                              htmlFor={data.id + `${index}`}
+                  .filter((answer) =>
+                    trueAnswer.some(
+                      (e) => answer.toUpperCase().slice(0, 2) === e
+                    )
+                  );
+                return (
+                  <li
+                    key={data?.id}
+                    className="p-[20px] rounded-[10px] w-full bg-[#fff]"
+                  >
+                    <div className="flex flex-col gap-[5px] items-start">
+                      {question.map((ques, index) => (
+                        <h5 key={index} className="text-[#000]">
+                          {ques}
+                        </h5>
+                      ))}
+                    </div>
+                    <div className="ml-[10px] mt-[20px] flex flex-col items-start">
+                      {answerArray
+                        .sort(() => Math.random() - 0.5)
+                        .map((ans, index) => {
+                          const isTrueAnswer = correctAnswer.some((e) =>
+                            ans.toLowerCase().includes(e.toLowerCase())
+                          );
+                          return (
+                            <div
+                              key={ans}
+                              className="flex gap-[10px] items-center"
                             >
-                              {ans}
-                            </label>
-                          </div>
-                        );
-                      })}
-                  </div>
-                </li>
-              );
-            })
-          : DATABASE?.map((data, index) => {
-              const content =
-                data.cardSides[1]?.media[0]?.plainText?.split("\n");
-              const question = [
-                content[0],
-                content
-                  .slice(1, content.length)
-                  .filter(
-                    (answer) =>
-                      !trueAnswer.some(
-                        (e) => answer.toUpperCase().slice(0, 2) === e
-                      )
-                  ),
-              ];
-              const answerArray = content
-                .slice(1, content.length)
-                .filter((answer) =>
-                  trueAnswer.some((e) => answer.toUpperCase().slice(0, 2) === e)
+                              <input
+                                type="checkbox"
+                                id={data.id + `${index}`}
+                              ></input>
+                              <label
+                                className={`${
+                                  isTrueAnswer
+                                    ? "text-[#008000]"
+                                    : "text-[#000]"
+                                }`}
+                                htmlFor={data.id + `${index}`}
+                              >
+                                {ans}
+                              </label>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  </li>
                 );
-              return (
-                <li
-                  key={data?.id}
-                  className="p-[20px] rounded-[10px] w-full bg-[#fff]"
-                >
-                  <div className="flex flex-col gap-[5px] items-start">
-                    {question.map((ques, index) => (
-                      <h5 key={index} className="text-[#000]">
-                        {ques}
-                      </h5>
-                    ))}
-                  </div>
-                  <div className="ml-[10px] mt-[20px] flex flex-col items-start">
-                    {answerArray
-                      .sort(() => Math.random() - 0.5)
-                      .map((ans, index) => {
-                        return (
-                          <div
-                            key={ans}
-                            className="flex gap-[10px] items-center"
-                          >
-                            <input
-                              type="checkbox"
-                              id={data.id + `${index}`}
-                            ></input>
-                            <label
-                              className={`text-[#000]
+              })
+            : DATABASE?.slice(0, test.numberQuestion).map((data, index) => {
+                const content =
+                  data.cardSides[1]?.media[0]?.plainText?.split("\n");
+                const question = [
+                  content[0],
+                  content
+                    .slice(1, content.length)
+                    .filter(
+                      (answer) =>
+                        !trueAnswer.some(
+                          (e) => answer.toUpperCase().slice(0, 2) === e
+                        )
+                    ),
+                ];
+                const answerArray = content
+                  .slice(1, content.length)
+                  .filter((answer) =>
+                    trueAnswer.some(
+                      (e) => answer.toUpperCase().slice(0, 2) === e
+                    )
+                  );
+                return (
+                  <li
+                    key={data?.id}
+                    className="p-[20px] rounded-[10px] w-full bg-[#fff]"
+                  >
+                    <div className="flex flex-col gap-[5px] items-start">
+                      {question.map((ques, index) => (
+                        <h5 key={index} className="text-[#000]">
+                          {ques}
+                        </h5>
+                      ))}
+                    </div>
+                    <div className="ml-[10px] mt-[20px] flex flex-col items-start">
+                      {answerArray
+                        .sort(() => Math.random() - 0.5)
+                        .map((ans, index) => {
+                          return (
+                            <div
+                              key={ans}
+                              className="flex gap-[10px] items-center"
+                            >
+                              <input
+                                type="checkbox"
+                                id={data.id + `${index}`}
+                              ></input>
+                              <label
+                                className={`text-[#000]
                             }`}
-                              htmlFor={data.id + `${index}`}
-                            >
-                              {ans}
-                            </label>
-                          </div>
-                        );
-                      })}
-                  </div>
-                </li>
-              );
-            })}
+                                htmlFor={data.id + `${index}`}
+                              >
+                                {ans}
+                              </label>
+                            </div>
+                          );
+                        })}
+                    </div>
+                  </li>
+                );
+              }))}
       </div>
       <button
         onClick={() => {
